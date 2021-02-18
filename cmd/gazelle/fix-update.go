@@ -83,6 +83,8 @@ func (ucr *updateConfigurer) RegisterFlags(fs *flag.FlagSet, cmd string, c *conf
 	fs.StringVar(&uc.patchPath, "patch", "", "when set with -mode=diff, gazelle will write to a file instead of stdout")
 	fs.Var(&gzflag.MultiFlag{Values: &ucr.knownImports}, "known_import", "import path for which external resolution is skipped (can specify multiple times)")
 	fs.StringVar(&ucr.repoConfigPath, "repo_config", "", "file where Gazelle should load repository configuration. Defaults to WORKSPACE.")
+
+	log.Print("register flags, repo_config: ", ucr.repoConfigPath)
 }
 
 func (ucr *updateConfigurer) CheckFlags(fs *flag.FlagSet, c *config.Config) error {
@@ -130,6 +132,7 @@ func (ucr *updateConfigurer) CheckFlags(fs *flag.FlagSet, c *config.Config) erro
 		uc.walkMode = walk.UpdateDirsMode
 	}
 
+	log.Print("repo config path", ucr.repoConfigPath)
 	// Load the repo configuration file (WORKSPACE by default) to find out
 	// names and prefixes of other go_repositories. This affects external
 	// dependency resolution for Go.
